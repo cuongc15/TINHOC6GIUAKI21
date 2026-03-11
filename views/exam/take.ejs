@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Làm bài thi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen py-8">
+    <div class="max-w-3xl mx-auto bg-white p-6 shadow rounded">
+        <h1 class="text-2xl font-bold text-center mb-8">ĐỀ CƯƠNG GIỮA KỲ II - MÔN TIN HỌC 6</h1>
+        <!-- In mã đề thi lấy từ Node.js xuống (EJS Syntax) -->
+        <p class="text-center text-gray-500 mb-4 font-mono">Mã đề: <%= examId %></p>
+        
+        <form action="/exam/<%= examId %>/results" method="GET">
+            <div class="mb-8">
+                <h2 class="text-xl font-bold border-b pb-2 mb-4">I. TRẮC NGHIỆM</h2>
+                <div class="mb-6">
+                    <p class="font-semibold mb-2">Câu 1. Để đặt hướng trang cho văn bản, trong thẻ Page Layout em chọn nhóm lệnh nào?</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <label class="flex items-center gap-2 p-2 border rounded hover:bg-gray-50"><input type="radio" name="q1" /> A. Page Background</label>
+                        <label class="flex items-center gap-2 p-2 border rounded hover:bg-gray-50"><input type="radio" name="q1" /> B. Paragraph</label>
+                        <label class="flex items-center gap-2 p-2 border rounded hover:bg-gray-50"><input type="radio" name="q1" /> C. Page Setup</label>
+                        <label class="flex items-center gap-2 p-2 border rounded hover:bg-gray-50"><input type="radio" name="q1" /> D. Editing</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <h2 class="text-xl font-bold border-b pb-2 mb-4">II. TỰ LUẬN</h2>
+                <div class="mb-6">
+                    <p class="font-semibold mb-2">Câu 30. Em hãy nêu các chức năng cơ bản của phần mềm soạn thảo văn bản?</p>
+                    <textarea placeholder="Gõ câu trả lời của em vào đây..." class="w-full border p-3 rounded h-32"></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700">NỘP BÀI</button>
+        </form>
+    </div>
+</body>
+</html>
