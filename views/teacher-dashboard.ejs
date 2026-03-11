@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Giáo viên - Quản lý đề thi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Nhúng thư viện Mammoth đọc file Word trực tiếp trên trình duyệt -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+</head>
+<body class="bg-gray-50 p-8 min-h-screen">
+    <div class="max-w-5xl mx-auto bg-white p-6 rounded-lg shadow">
+        <h1 class="text-3xl font-bold mb-6 text-gray-800">Tạo Đề Cương Từ File Thực Tế</h1>
+        
+        <!-- Khung Upload -->
+        <div class="mb-8 border-2 border-dashed border-blue-400 p-8 rounded bg-blue-50 text-center">
+            <h2 class="text-xl font-bold mb-2">Tải file Đề thi (.docx)</h2>
+            <p class="text-gray-600 mb-4">Hệ thống sẽ dùng AI/Mammoth để đọc và bóc tách câu hỏi trắc nghiệm tự động.</p>
+            <input type="file" id="upload-file" accept=".docx" class="mb-4 block w-full max-w-sm mx-auto text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:bg-blue-100 file:text-blue-700" />
+            <button onclick="extractWord()" id="extract-btn" class="bg-blue-600 text-white px-6 py-2 rounded font-bold hover:bg-blue-700 disabled:bg-gray-400">
+                ⚡ Bắt đầu trích xuất
+            </button>
+        </div>
+
+        <!-- Khung Kết quả -->
+        <div id="result-container" class="hidden">
+            <h2 class="text-xl font-bold mb-4 text-blue-800">Câu hỏi đã bóc tách:</h2>
+            <div id="questions-list" class="space-y-4 mb-6"></div>
+            
+            <button class="w-full bg-red-600 text-white p-4 rounded-lg font-bold text-lg hover:bg-red-700 shadow-lg">
+                LƯU VÀ XUẤT BẢN ĐỀ THI LÊN DATABASE
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function extractWord() {
+            const fileInput = document.getElementById('upload-file');
+            const btn = document.getElementById('extract-btn');
+            if(fileInput.files.length === 0) return alert("Vui lòng chọn file Word (.docx)!");
+
+            btn.innerText = "⏳ Đang bóc tách...";
+            btn.disabled = true;
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const arrayBuffer = event.target.result;
+                mammoth.extractRawText({arrayBuffer: arrayBuffer}).then(function(result) {
+                    let text = result.value;
+                    let blocks = text.split(/(?=Câu\s+\d+[\.\:])/i).filter(b => b.trim().length > 0);
+                    
+                    let htmlList = "";
+                    blocks.forEach((block, index) => {
+                        htmlList += `<div class="bg-gray-50 p-4 border rounded shadow-sm">
+                            <textarea class="w-full border p-2 rounded mb-2 font-semibold">${block.trim()}</textarea>
+                        </div>`;
+                    });
+
+                    document.getElementById('questions-list').innerHTML = htmlList;
+                    document.getElementById('result-container').classList.remove('hidden');
+                    btn.innerText = "⚡ Bắt đầu trích xuất";
+                    btn.disabled = false;
+                    alert("Trích xuất thành công!");
+                }).catch(function(err) {
+                    console.log(err);
+                    alert("Lỗi khi đọc file!");
+                });
+            };
+            reader.readAsArrayBuffer(fileInput.files[0]);
+        }
+    </script>
+</body>
+</html>
