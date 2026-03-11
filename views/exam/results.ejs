@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Kết quả thi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen py-8">
+    <div class="max-w-4xl mx-auto p-6">
+        <div class="bg-green-600 p-6 rounded-lg text-center text-white mb-8 shadow-lg">
+            <h1 class="text-3xl font-bold mb-2">ĐIỂM CỦA BẠN: 8/10</h1>
+            <p class="text-lg">Mã đề: <%= examId %></p>
+            <p class="text-lg mt-2">Chúc mừng! Bạn đã đạt yêu cầu. Dưới đây là đáp án chi tiết.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded shadow border">
+            <h2 class="text-2xl font-bold border-b pb-2 mb-6">ĐÁP ÁN & HƯỚNG DẪN CHẤM</h2>
+            
+            <div class="mb-8">
+                <h3 class="font-bold text-lg mb-4">I. Trắc nghiệm</h3>
+                <div class="p-4 bg-gray-50 rounded mb-4">
+                    <p class="font-semibold mb-2">Câu 1. Để đặt hướng trang cho văn bản, em chọn nhóm lệnh nào?</p>
+                    <ul class="space-y-1">
+                        <li class="text-green-600 font-bold bg-green-100 p-1 rounded inline-block">C. Page Setup (Đáp án đúng)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="font-bold text-lg mb-4">II. Tự luận</h3>
+                <div class="p-4 bg-gray-50 border-l-4 border-green-500 mb-4">
+                    <p class="font-bold mb-2">Câu 32. Vẽ sơ đồ tư duy cho bài 11.</p>
+                    <p class="font-semibold text-gray-700 mb-2">Hình ảnh đáp án tham khảo:</p>
+                    <div class="w-full h-64 bg-gray-200 rounded flex items-center justify-center border-2 border-dashed border-gray-400">
+                        <span class="text-gray-500">[ Ảnh sơ đồ tư duy từ Database ]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
