@@ -1,36 +1,36 @@
+require('dotenv').config(); // Load biến môi trường từ file .env
 const express = require('express');
 const app = express();
 const path = require('path');
+const { createClient } = require('@supabase/supabase-js');
 
-// Cấu hình EJS làm Template Engine
+// Khởi tạo Supabase Client
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// 1. Trang Đăng nhập
-app.get('/login', (req, res) => {
-    res.render('login');
-});
-
-// 2. Trang Giáo viên (Dashboard)
-app.get('/teacher/dashboard', (req, res) => {
-    res.render('teacher-dashboard');
-});
-
-// 3. Trang Học sinh làm bài thi
-app.get('/exam/:id', (req, res) => {
-    const examId = req.params.id; // Lấy ID đề thi từ URL
-    res.render('exam/take', { examId: examId });
-});
-
-// 4. Trang Học sinh xem kết quả và đáp án
-app.get('/exam/:id/results', (req, res) => {
+// Ví dụ: Trang chủ lấy dữ liệu từ Supabase (Giả sử bạn có bảng 'exams')
+app.get('/exam/:id', async (req, res) => {
     const examId = req.params.id;
-    res.render('exam/results', { examId: examId });
+    
+    // LẤY DỮ LIỆU TỪ SUPABASE (Bảng questions)
+    // const { data: questions, error } = await supabase
+    //     .from('questions')
+    //     .select('*')
+    //     .eq('exam_id', examId);
+        
+    res.render('exam/take', { 
+        examId: examId,
+        // questions: questions // Truyền dữ liệu xuống giao diện EJS
+    });
 });
 
-// Chạy server ở cổng 3000
+// Các route khác giữ nguyên...
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`🚀 Server đang chạy tại: http://localhost:${PORT}`);
-    console.log(`👉 Trang đăng nhập: http://localhost:${PORT}/login`);
+    console.log(`🚀 Server đang chạy tại cổng ${PORT}`);
 });
